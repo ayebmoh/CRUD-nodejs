@@ -1,6 +1,6 @@
 const { response } = require("express")
 const employee = require("../modules/employee")
-
+const fs = require('fs')
 
 
 //Show list of employees
@@ -42,8 +42,15 @@ const store = (req, res, next) => {
     })
     if(req.file){
         newEmployee.avatar = req.file.path
-    console.log(req.file)
     }
+
+    if(newEmployee.name == "" || newEmployee.designation == "" || newEmployee.Email == "" || newEmployee.age == null){
+            res.json({
+                message: "all fields must be filled!"
+            })
+            return
+        }
+    else{
     newEmployee.save()
       .then(() => {
         res.json({
@@ -56,7 +63,7 @@ const store = (req, res, next) => {
         });
       });
   };
-
+}
 
 //Update an Employee by his ID
 
@@ -66,9 +73,19 @@ const Update =(req,res,next) => {
     let Updatedata = {
         name:req.body.name,
         designation:req.body.designation,
-        email: req.body.email,
-        age:req.body.age
+        Email: req.body.Email,
+        age: req.body.age
     }
+    if(req.file){
+        newEmployee.avatar = req.file.path
+    }
+    if(Updatedata.name == "" || Updatedata.designation == "" || Updatedata.Email == "" || Updatedata.age == ""){
+        res.json({
+            message: "all fields must be filled!"
+        })
+        return
+    }
+else{
     employee.findByIdAndUpdate(employeeID,{$set: Updatedata})
     .then(()=>{
         res.json({
@@ -81,12 +98,13 @@ const Update =(req,res,next) => {
         })
 })
     }
+}
 
 
 //Delete an employee
 
 const Destroy = (req,res,next) =>{
-    let employeeID = req.body.employeeID
+    let employeeID = req.body.employeeID 
     employee.findByIdAndRemove(employeeID)
     .then(()=>{
         res.json({
@@ -99,6 +117,7 @@ const Destroy = (req,res,next) =>{
         })    
     })
 }
+
 
 module.exports = {
     index, show, store, Update, Destroy
