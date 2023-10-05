@@ -43,13 +43,6 @@ const store = (req, res, next) => {
     if(req.file){
         newEmployee.avatar = req.file.path
     }
-
-    if(newEmployee.name == "" || newEmployee.designation == "" || newEmployee.Email == "" || newEmployee.age == null){
-            res.json({
-                message: "all fields must be filled!"
-            })
-            return
-        }
     else{
     newEmployee.save()
       .then(() => {
@@ -78,12 +71,6 @@ const Update =(req,res,next) => {
     }
     if(req.file){
         newEmployee.avatar = req.file.path
-    }
-    if(Updatedata.name == "" || Updatedata.designation == "" || Updatedata.Email == "" || Updatedata.age == ""){
-        res.json({
-            message: "all fields must be filled!"
-        })
-        return
     }
 else{
     employee.findByIdAndUpdate(employeeID,{$set: Updatedata})

@@ -3,16 +3,16 @@ const schema = mongoose.Schema
 
 const employeeShchema = new schema({
     name : {
-        type: String
+        type: String , required: true
     },
     designation :{
-        type : String
+        type : String , required: true
     },
     Email :{
-        type: String
+        type: String , required: true
     },
     age :{
-        type: Number
+        type: Number , required: true
     },
     avatar: {
         type : String
